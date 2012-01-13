@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Divya Engineering Works Add New Customer To Database</title>
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+
+ <style type="text/css">
+* { font-family: Verdana; font-size: 96%; }
+label { width: 10em; float: left; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+</style>
+  <script>
+  $(document).ready(function(){
+    $("#addcustomer").validate();
+
+	$("#submit").click(function(event) {
+
+	 if($("#addcustomer").valid())
+  	{
+  		event.preventDefault();
+		$.ajax({
+      					data: $('#addcustomer').serializeArray(),
+      					type: "POST",
+      					url: "add_customer.php",
+      					success: function(html) {
+
+				document.getElementById("footer").innerHTML=html;
+      							}
+    							});
+  	
+  	}
+
+		});
+  });
+  </script>
+
+
+
+
+    </head>
+    <body>
+<div id="acust">
+  <form class="cmxform" id="addcustomer">
+ <fieldset>
+<legend>Add New Customer's Details</legend>
+   <p>
+     <label for="cname">Customer's Name</label>
+     <input id="cname" name="name" size="25" class="required" minlength="2" />
+   </p>
+   <p>
+     <label for="addl1">Address Line 1</label>
+     <input id="addl1" name="addl1" size="25"  class="required" />
+   </p>
+   <p>
+     <label for="addl2">Address Line 2</label>
+     <input id="addl2" name="addl2" size="25" />
+   </p>
+   <p>
+     <label for="curl">Phone No</label>
+     <input id="phone" name="phone" size="25"  class="phone" value="" />
+   </p>
+   <p>
+     <label for="tinno">TIN No</label>
+     <input id="tinno" name="tinno" size="25" value="" class="required" />
+   </p>
+   <p>
+     <label for="tinno">Excise Details</label>
+     <input id="excise" name="excise" size="25"  class="excise" value="" />
+   </p>
+   <p>
+     <input class="submit" id="submit" type="submit" value="Submit"/>
+   </p>
+ </fieldset>
+ </form>
+<div id="footer"></div>
+</div>
+
+</body>
+</html>

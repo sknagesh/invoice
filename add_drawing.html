@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Divya Engineering Works Add New Drawing To Database</title>
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+
+ <style type="text/css">
+* { font-family: Verdana; font-size: 96%; }
+label { width: 10em; float: left; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+</style>
+  <script>
+  $(document).ready(function(){
+  	$("#customer").load('get_customer.php');
+    $("#adddrawing").validate();
+
+	$("#submit").click(function(event) {
+
+	 if($("#adddrawing").valid())
+  	{
+  		event.preventDefault();
+		$.ajax({
+      					data: $('#adddrawing').serializeArray(),
+      					type: "POST",
+      					url: "add_drawing.php",
+      					success: function(html) {
+
+				document.getElementById("footer").innerHTML=html;
+      							}
+    							});
+  	
+  	}
+
+		});
+
+
+
+  });
+  </script>
+
+
+
+
+    </head>
+    <body>
+<div id="adraw">
+  <form class="cmxform" id="adddrawing">
+ <fieldset>
+<legend>Add New Drawing Details</legend>
+   <p>
+     <label for="cname">Customer's Name</label>
+     <div id="customer"></div>
+   </p>
+   <p>
+     <label for="drawingno">Drawing Number</label>
+     <input id="drawingno" name="drawingno" size="25"  class="required" />
+   </p>
+   <p>
+     <label for="componentname">Component Name</label>
+     <input id="componentname" name="componentname" size="25" class="required"/>
+   </p>
+   <p>
+     <label for="price">Price/Component</label>
+     <input id="price" name="price" size="25"  class="required number" value="" />
+   </p>
+   <p>
+     <input class="submit" id="submit" type="submit" value="Submit"/>
+   </p>
+ </fieldset>
+ </form>
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
