@@ -30,8 +30,9 @@ p { font-weight: bold; clear: both; }
       					success: function(html) {
 
 				document.getElementById("footer").innerHTML=html;
+				$('#addcustomer')[0].reset();
       							}
-    							});
+      							    							});
   	
   	}
 
@@ -69,6 +70,13 @@ p { font-weight: bold; clear: both; }
      <input id="tinno" name="tinno" size="25" value="" class="required" />
    </p>
    <p>
+   <p>
+     <label for="oanno">PAN No</label>
+     <input id="panno" name="panno" size="25" value="" class="required" />
+   </p>
+   <p>
+
+
      <label for="tinno">Excise Details</label>
      <input id="excise" name="excise" size="25"  class="excise" value="" />
    </p>

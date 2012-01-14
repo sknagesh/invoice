@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Divya Engineering Works Material Inward Details</title>
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+
+ <style type="text/css">
+* { font-family: Verdana; font-size: 96%; }
+label { width: 10em; float: left; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+.drawingqty{border-spacing=2px;
+color: #ffffff;
+text-align: middle;
+} 
+
+</style>
+  <script>
+  $(document).ready(function(){
+  	$("#customer").load('get_customer.php');
+
+    $("#addchallen").validate();
+
+
+$('#cdate').validate({
+        rules :{
+            cdate : {
+                required: true,
+                indianDate: true
+                
+                         }
+             },
+    });
+
+	$("#submit").click(function(event) {
+		 if($("#addchallen").valid())
+		  	{
+		  		event.preventDefault();
+				$.ajax({
+      					data: $('#addchallen').serializeArray(),
+      					type: "POST",
+      					url: "incomming_challans.php",
+      					success: function(html) {
+		
+						document.getElementById("footer").innerHTML=html;
+      							}
+    								});
+ 	
+		  	}
+
+	});
+var noofcomp=0;
+
+$('#customer').click(function(){
+noofcomp=0;
+	var custid=$('#Customer_ID').val();
+var url='get_drawing.php?custid='+custid+'&noofcomp='+noofcomp;
+  		$("#Drawing_ID").load(url)
+$('#noofcomp').val(noofcomp);
+  		noofcomp++;
+  		});
+
+
+$('#add').click(function(){
+var custid=$('#Customer_ID').val();
+var url='get_drawing.php?custid='+custid+'&noofcomp='+noofcomp;
+var divid='#dwgqty'+(noofcomp-1);
+		$(divid).load(url)
+$('#noofcomp').val(noofcomp);
+  		noofcomp++;
+  	});
+
+
+
+
+  });
+
+
+
+
+function indianDate(value, element) {	
+
+var dm=/^(0[1-9]|[12][0-9]|3[01])[- //.](0[1-9]|1[012])[- //.](19|20)\d\d$/;
+                return value.match(dm);
+}
+
+$.validator.addMethod("indianDate",indianDate,"Please enter a date in the format dd/mm/yyyy");
+
+
+
+
+  </script>
+
+
+
+
+    </head>
+    <body>
+<div id="adraw">
+  <form class="cmxform" id="addchallen">
+ <fieldset>
+<legend>Add Material Receipt Details</legend>
+   <p>
+     <label for="cname">Customer's Name</label>
+     <div id="customer"></div>
+   </p>
+   <p>
+     <label for="excno">Excise Challen Number</label>
+     <input id="excno" name="excno" size="25"  class="required" value="" />
+   </p>
+   <p>
+     <label for="excdate">Excise Challen Date</label>
+     <input id="excdate" name="excdate" size="25" class="required indianDate"/>
+   </p>
+
+   <p>
+     <label for="gpno">Gate Pass Number</label>
+     <input id="gpno" name="gpno" size="25"  class="required" value="" />
+   </p>
+   <p>
+     <label for="gpdate">Gate Pass Date</label>
+     <input id="gpdate" name="gpdate" size="25" class="required indianDate"/>
+   </p>
+
+   <p>
+     <label for="dano">Delivery Advice Number</label>
+     <input id="dano" name="dano" size="25"  value="" />
+   </p>
+   <p>
+     <label for="dadate">Delivery Advice Date</label>
+     <input id="dadate" name="dadate" size="25" class="indianDate"/>
+   </p>
+   <p>
+     <input id="noofcomp" name="noofcomp" size="25" value="" type="hidden"/>
+   </p>
+
+
+
+
+
+
+   <p>
+<lable for="drwqty">Select Drawing No and Respective Quantity</lable>
+     <input id="add" name="add" type="button" value="Add"/>
+   </p>
+<pre>Drawing NO		                   Qty 		                  Description</pre>
+
+   <p>
+     <div id="Drawing_ID" class="drawingqty"></div>
+
+   </p>
+</div>
+
+
+   <p>
+     <input class="submit" id="submit" type="submit" value="Submit"/>
+   </p>
+ </fieldset>
+ </form>
+<div id="footer"></div>
+
+
+</body>
+</html>
