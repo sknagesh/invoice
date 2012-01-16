@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Divya Engineering Works Material Inward Details</title>
+        <title>Divya Engineering Delivery Challan Details</title>
         <script src="jquery.js"></script>
         <script src="jquery.validate.js"></script>
 
  <style type="text/css">
 * { font-family: Verdana; font-size: 96%; }
-label { width: 10em; float: left; }
+label { width: 10em; float: left; color: black}
 label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
 p { font-weight: bold; clear: both; }
 .submit { margin-left: 12em; }
@@ -19,10 +19,10 @@ color: #ffffff;
 
 </style>
   <script>
-  $(document).ready(function(){
+$(document).ready(function(){
   	$("#customer").load('get_customer.php');
 
-    $("#addchallen").validate();
+    $("#deliverychallen").validate();
 
 
 $('#cdate').validate({
@@ -36,16 +36,16 @@ $('#cdate').validate({
     });
 
 	$("#submit").click(function(event) {
-		 if($("#addchallen").valid())
+		 if($("#deliverychallen").valid())
 		  	{
 		  		event.preventDefault();
 				$.ajax({
-      					data: $('#addchallen').serializeArray(),
+      					data: $('#deliverychallen').serializeArray(),
       					type: "POST",
-      					url: "incomming_challans.php",
+      					url: "outward_dc.php",
       					success: function(html) {
 						document.getElementById("footer").innerHTML=html;
-						$('#addchallen')[0].reset();
+						$('#deliverychallen')[0].reset();
       							}
     								});
  	
@@ -57,7 +57,7 @@ var noofcomp=0;
 $('#customer').click(function(){
 noofcomp=0;
 	var custid=$('#Customer_ID').val();
-var url='get_drawing.php?custid='+custid+'&noofcomp='+noofcomp;
+var url='get_drawing_dc.php?custid='+custid+'&noofcomp='+noofcomp;
   		$("#Drawing_ID").load(url)
 $('#noofcomp').val(noofcomp);
   		noofcomp++;
@@ -65,14 +65,32 @@ $('#noofcomp').val(noofcomp);
 
 
 $('#add').click(function(){
-var custid=$('#Customer_ID').val();
-var url='get_drawing.php?custid='+custid+'&noofcomp='+noofcomp;
-var divid='#dwgqty'+(noofcomp-1);
-		$(divid).load(url)
-$('#noofcomp').val(noofcomp);
-  		noofcomp++;
+var drawingid=$('#Drawing').val();
+var incommingid=$('#Challan_ID').val();
+var qty=$('#qty').val();
+console.log(drawingid,incommingid,qty);
+if(drawingid==''||incommingid==''||qty=='')
+{
+	alert("Please select Corect Drawing, Challan No and Quantity");
+	return false;
+}else
+{
+var url='get_comp_challan_details.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty;
+$('#itemlist').load(url);
+
+	//$('#itemlist').val($('#itemlist').val()+drawingid+incommingid+qty);
+	
+}
+
+
   	});
 
+$('#Drawing_ID').change(function(){
+	var drawingid=$('#Drawing').val();
+	console.log(drawingid);
+	var url='get_open_challans.php?drawingid='+drawingid;
+  		$('#challan').load(url)
+  		});
 
 
 
@@ -100,66 +118,35 @@ $.validator.addMethod("indianDate",indianDate,"Please enter a date in the format
     </head>
     <body>
 <div id="adraw">
-  <form class="cmxform" id="addchallen">
+  <form class="cmxform" id="deliverychallen">
  <fieldset>
-<legend>Add Material Receipt Details</legend>
+<legend>Add Outgoing Material Details</legend>
    <p>
      <label for="cname">Customer's Name</label>
      <div id="customer"></div>
    </p>
    <p>
-     <label for="excno">Excise Challen Number</label>
-     <input id="excno" name="excno" size="25"  class="required" value="" />
+   	     <div id="Drawing_ID" class="drawingqty"></div>
    </p>
    <p>
-     <label for="excdate">Excise Challen Date</label>
-     <input id="excdate" name="excdate" size="25" class="required indianDate"/>
-   </p>
-
-   <p>
-     <label for="gpno">Gate Pass Number</label>
-     <input id="gpno" name="gpno" size="25"  class="required" value="" />
+     <div id="challan"></div>
    </p>
    <p>
-     <label for="gpdate">Gate Pass Date</label>
-     <input id="gpdate" name="gpdate" size="25" class="required indianDate"/>
-   </p>
-
-   <p>
-     <label for="dano">Delivery Advice Number</label>
-     <input id="dano" name="dano" size="25"  value="" />
-   </p>
-   <p>
-     <label for="dadate">Delivery Advice Date</label>
-     <input id="dadate" name="dadate" size="25" class="indianDate"/>
+   	 <label>Added Items</label>
+     <input id="add" name="add" type="button" value="Add To List"/>
+     <textarea name="itemlist" id="itemlist" rows="5" cols="80" /></textarea>
    </p>
    <p>
      <input id="noofcomp" name="noofcomp" size="25" value="" type="hidden"/>
    </p>
 
-
-
-
-
-
-   <p>
-<label for="drwqty">Select Drawing No and Respective Quantity</label>
-     <input id="add" name="add" type="button" value="Add"/>
-   </p>
-<pre>Drawing NO		                   Qty 		                  Description</pre>
-
-   <p>
-     <div id="Drawing_ID" class="drawingqty"></div>
-
-   </p>
-</div>
-
-
+ </fieldset>
    <p>
      <input class="submit" id="submit" type="submit" value="Submit"/>
    </p>
- </fieldset>
+
  </form>
+</div>
 <div id="footer"></div>
 
 
