@@ -44,8 +44,8 @@ print("<br>Record ID=$challanid");
 $i=0;
 while($i<=$noofcomp)
 {
-$q="INSERT INTO Material_Incomming (Challan_ID,Drawing_ID,Qty,Material_Desc) ";
-$q.="VALUES('$challanid','$Drawing_ID[$i]','$Qty[$i]','$mdesc[$i]');";
+$q="INSERT INTO Material_Incomming (Challan_ID,Drawing_ID,Qty,Outward_Qty,Material_Desc) ";
+$q.="VALUES('$challanid','$Drawing_ID[$i]','$Qty[$i]','$Qty[$i]','$mdesc[$i]');";
 //	print("<br>$q");
 $r=mysql_query($q) or die(mysql_error());
 

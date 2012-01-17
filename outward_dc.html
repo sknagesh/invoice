@@ -24,7 +24,7 @@ $(document).ready(function(){
 
     $("#deliverychallen").validate();
 
-
+$('#added').hide();
 $('#cdate').validate({
         rules :{
             cdate : {
@@ -53,7 +53,7 @@ $('#cdate').validate({
 
 	});
 var noofcomp=0;
-
+var data=new Array();
 $('#customer').click(function(){
 noofcomp=0;
 	var custid=$('#Customer_ID').val();
@@ -65,21 +65,34 @@ $('#noofcomp').val(noofcomp);
 
 
 $('#add').click(function(){
-var drawingid=$('#Drawing').val();
-var incommingid=$('#Challan_ID').val();
-var qty=$('#qty').val();
-console.log(drawingid,incommingid,qty);
-if(drawingid==''||incommingid==''||qty=='')
-{
-	alert("Please select Corect Drawing, Challan No and Quantity");
-	return false;
-}else
-{
-var url='get_comp_challan_details.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty;
-$('#itemlist').load(url);
+	var drawingid=$('#Drawing').val();
+	var incommingid=$('#Challan_ID').val();
+	var qty=$('#qty').val();
+	var Max_Qty=0;
+	var url='get_challan_qty.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty;
+	$.get(url, function(result) {
+if(result<qty){alert("Please enter Correct Quantity");
+return false;}
+		});
 
-	//$('#itemlist').val($('#itemlist').val()+drawingid+incommingid+qty);
-	
+		if(drawingid==''||incommingid==''||qty=='')
+		{
+			alert("Please select Corect Drawing, Challan No and Quantity");
+			return false;
+		}else	{
+		var url='get_comp_challan_details.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty;
+		$.get(url, function(result) {
+   		data[noofcomp]=result.split("<|>")
+		var newtr="<tr><td>"+data[noofcomp][0]+"</td><td>"+data[noofcomp][1]+"</td><td>"+data[noofcomp][2]+"</td><td>"+data[noofcomp][3]+"</td><td>"+data[noofcomp][4]+"</td><td>"+data[noofcomp][5]+"</td><td>"+data[noofcomp][6]+"</td><td>"+data[noofcomp][7]+"</td></tr>";
+		$('#added').show();
+		$('#added').append(newtr);
+		$('#data').val(data);
+		$('#noofcomp').val(noofcomp);
+   		noofcomp++;
+		});
+
+
+
 }
 
 
@@ -87,7 +100,6 @@ $('#itemlist').load(url);
 
 $('#Drawing_ID').change(function(){
 	var drawingid=$('#Drawing').val();
-	console.log(drawingid);
 	var url='get_open_challans.php?drawingid='+drawingid;
   		$('#challan').load(url)
   		});
@@ -131,13 +143,10 @@ $.validator.addMethod("indianDate",indianDate,"Please enter a date in the format
    <p>
      <div id="challan"></div>
    </p>
-   <p>
-   	 <label>Added Items</label>
      <input id="add" name="add" type="button" value="Add To List"/>
-     <textarea name="itemlist" id="itemlist" rows="5" cols="80" /></textarea>
-   </p>
    <p>
      <input id="noofcomp" name="noofcomp" size="25" value="" type="hidden"/>
+     <input id="data" name="data" value="" type="hidden"/>
    </p>
 
  </fieldset>
@@ -148,6 +157,11 @@ $.validator.addMethod("indianDate",indianDate,"Please enter a date in the format
  </form>
 </div>
 <div id="footer"></div>
+<table id="added" border="1px" cellspacing="2px">
+<tr><th>Drawing No</th><th>Ex Challan No</th><th>Ex Challan Date</th><th>Gate Pass No</th><th>Gate Pass Date</th><th>DA No</th><th>da date</th><th>Qty</th></tr>	
+	
+	
+</table>	
 
 
 </body>
