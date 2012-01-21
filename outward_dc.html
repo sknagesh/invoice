@@ -6,10 +6,11 @@
         <title>Divya Engineering Delivery Challan Details</title>
         <script src="jquery.js"></script>
         <script src="jquery.validate.js"></script>
+        <script src="jQuery.download.js"></script>
 
  <style type="text/css">
-* { font-family: Verdana; font-size: 96%; }
-label { width: 10em; float: left; color: black}
+* { font-family: Verdana; font-size=12; }
+label { width: 10em; float: left; color: green}
 label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
 p { font-weight: bold; clear: both; }
 .submit { margin-left: 12em; }
@@ -18,147 +19,64 @@ color: #ffffff;
 } 
 
 </style>
-  <script>
-$(document).ready(function(){
-  	$("#customer").load('get_customer.php');
-
-    $("#deliverychallen").validate();
-
-$('#added').hide();
-$('#cdate').validate({
-        rules :{
-            cdate : {
-                required: true,
-                indianDate: true
-                
-                         }
-             },
-    });
-
-	$("#submit").click(function(event) {
-		 if($("#deliverychallen").valid())
-		  	{
-		  		event.preventDefault();
-				$.ajax({
-      					data: $('#deliverychallen').serializeArray(),
-      					type: "POST",
-      					url: "outward_dc.php",
-      					success: function(html) {
-						document.getElementById("footer").innerHTML=html;
-						$('#deliverychallen')[0].reset();
-      							}
-    								});
- 	
-		  	}
-
-	});
-var noofcomp=0;
-var data=new Array();
-$('#customer').click(function(){
-noofcomp=0;
-	var custid=$('#Customer_ID').val();
-var url='get_drawing_dc.php?custid='+custid+'&noofcomp='+noofcomp;
-  		$("#Drawing_ID").load(url)
-$('#noofcomp').val(noofcomp);
-  		noofcomp++;
-  		});
-
-
-$('#add').click(function(){
-	var drawingid=$('#Drawing').val();
-	var incommingid=$('#Challan_ID').val();
-	var qty=$('#qty').val();
-	var Max_Qty=0;
-	var url='get_challan_qty.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty;
-	$.get(url, function(result) {
-if(result<qty){alert("Please enter Correct Quantity");
-return false;}
-		});
-
-		if(drawingid==''||incommingid==''||qty=='')
-		{
-			alert("Please select Corect Drawing, Challan No and Quantity");
-			return false;
-		}else	{
-		var url='get_comp_challan_details.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty;
-		$.get(url, function(result) {
-   		data[noofcomp]=result.split("<|>")
-		var newtr="<tr><td>"+data[noofcomp][0]+"</td><td>"+data[noofcomp][1]+"</td><td>"+data[noofcomp][2]+"</td><td>"+data[noofcomp][3]+"</td><td>"+data[noofcomp][4]+"</td><td>"+data[noofcomp][5]+"</td><td>"+data[noofcomp][6]+"</td><td>"+data[noofcomp][7]+"</td></tr>";
-		$('#added').show();
-		$('#added').append(newtr);
-		$('#data').val(data);
-		$('#noofcomp').val(noofcomp);
-   		noofcomp++;
-		});
-
-
-
-}
-
-
-  	});
-
-$('#Drawing_ID').change(function(){
-	var drawingid=$('#Drawing').val();
-	var url='get_open_challans.php?drawingid='+drawingid;
-  		$('#challan').load(url)
-  		});
-
-
-
-  });
-
-
-
-
-function indianDate(value, element) {	
-
-var dm=/^(0[1-9]|[12][0-9]|3[01])[- //.](0[1-9]|1[012])[- //.](19|20)\d\d$/;
-                return value.match(dm);
-}
-
-$.validator.addMethod("indianDate",indianDate,"Please enter a date in the format dd/mm/yyyy");
-
-
-
-
-  </script>
-
-
-
-
+ <script src="outward_dc.js"></script>
     </head>
     <body>
 <div id="adraw">
-  <form class="cmxform" id="deliverychallen">
+  <form class="cmxform" id="deliverychallen" method="post" action="outward_dc.php">
  <fieldset>
 <legend>Add Outgoing Material Details</legend>
-   <p>
-     <label for="cname">Customer's Name</label>
-     <div id="customer"></div>
-   </p>
-   <p>
-   	     <div id="Drawing_ID" class="drawingqty"></div>
-   </p>
-   <p>
-     <div id="challan"></div>
-   </p>
-     <input id="add" name="add" type="button" value="Add To List"/>
-   <p>
+<table>
+<tr>
+	<td><label for="cname">Customer's Name</label></td>
+	<td><div id="customer"></div></td>
+    <td><label for="dcno">Delivery Challan No</label></td>
+    <td><input id="dcno" name="dcno" type="text" size="15" class="required number"></td>
+    <td><label for="dcdate">Date</label></td>
+    <td><input id="dcdate" name="dcdate" type="text" size="15" class="required indianDate"></td>
+
+</tr>
+<tr>
+    <td><label for="yref">Customer's Referance</label></td>
+    <td><input id="yref" name="yref" type="text" size="15" ></td>
+    <td><label for="ydate">Date</label></td>
+    <td><input id="ydate" name="ydate" type="text" size="15" ></td>
+    <td><label for="dmode">Mode Of Dispatch</label></td>
+    <td><input id="dmode" name="dmode" type="text" size="25" ></td>
+    <td><label for="status">Status</label></td>
+    <td><input id="status" name="status" type="text" size="25" ></td>
+</tr>
+
+
+
+
+</table>
+<table>
+<tr>
+	<td><div id="Drawing_ID" class="drawingqty"></div></td>   	     
+     <td><div id="challan"></div></td>
+</tr>
+<tr>     
+   <td><input id="add" name="add" type="button" value="Add To List"/></td>
+</tr>
      <input id="noofcomp" name="noofcomp" size="25" value="" type="hidden"/>
+     <input id="pview" name="pview" value="" type="hidden"/>
      <input id="data" name="data" value="" type="hidden"/>
-   </p>
-
  </fieldset>
-   <p>
-     <input class="submit" id="submit" type="submit" value="Submit"/>
-   </p>
-
+</table>
+<table>
+<tr>
+     <td><input class="preview" id="preview" type="button" value="Preview"/></td>
+     <td><input class="submit" id="submit" type="submit" value="Submit"/></td>
+     <td><label for="previewok">Preview Checked</label></td>
+     <td><input id="previewok" type="checkbox" value="1" disabled="true"/></td>
+   </tr>
+</table>
  </form>
 </div>
 <div id="footer"></div>
 <table id="added" border="1px" cellspacing="2px">
-<tr><th>Drawing No</th><th>Ex Challan No</th><th>Ex Challan Date</th><th>Gate Pass No</th><th>Gate Pass Date</th><th>DA No</th><th>da date</th><th>Qty</th></tr>	
+<tr><th>Drawing No</th><th>Ex Challan No</th><th>Ex Challan Date</th><th>Qty</th></tr>	
 	
 	
 </table>	
