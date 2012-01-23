@@ -6,6 +6,7 @@ mysql_select_db('Invoice',$cxn) or die("error opening db: ".mysql_error());
 $drawingid=$_GET['drawingid'];
 $incommingid=$_GET['incommingid'];
 $qty=$_GET['qty'];
+$remarks=$_GET['remarks'];
 $query="SELECT Ex_Challan_NO, Ex_Challan_Date,GP_NO,GP_Date,DA_NO,DA_Date,Drawing_NO,Component_Name,Qty FROM Incomming_Challans as ic "; 
 $query.="INNER JOIN Material_Incomming AS mi ON mi.Challan_ID=ic.Incomming_ID ";
 $query.="INNER JOIN Components as comp ON comp.Drawing_ID=mi.Drawing_ID ";
@@ -27,8 +28,9 @@ $data[8]=$row['Component_Name'];
 $data[9]=$drawingid;
 $data[10]=$qty;
 $data[11]=$incommingid;
+$data[12]=$remarks;
 $str=$data[0]."<|>".$data[1]."<|>".$data[2]."<|>".$data[3]."<|>".$data[4]."<|>".$data[5]."<|>".$data[6]."<|>".$data[7];
-$str.="<|>".$data[8]."<|>".$data[9]."<|>".$data[10]."<|>".$data[11];
+$str.="<|>".$data[8]."<|>".$data[9]."<|>".$data[10]."<|>".$data[11]."<|>".$data[12];
 print($str);	
 	
 

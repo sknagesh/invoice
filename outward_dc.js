@@ -55,6 +55,7 @@ $('#add').click(function(){
 	var drawingid=$('#Drawing').val();
 	var incommingid=$('#Challan_ID').val();
 	var qty=$('#qty').val();
+	var remarks=$('#remarks').val();
 	var Max_Qty=0;
 	console.log("entered addclick "+Max_Qty,qty);
 	var url='get_challan_qty.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty;
@@ -77,11 +78,11 @@ $('#add').click(function(){
 			return false;
 		}	else{
 		$('#preview').attr("disabled",false);
-		var url='get_comp_challan_details.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty;
+		var url='get_comp_challan_details.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty+'&remarks='+remarks;
 		$.get(url, function(result) {
    		data[noofcomp]=result.split("<|>");
-   		//console.log(Max_Qty,data[noofcomp]);
-   		var newtr="<tr><td>"+data[noofcomp][0]+"</td><td>"+data[noofcomp][1]+"</td><td>"+data[noofcomp][2]+"</td><td>"+data[noofcomp][10]+"</td></tr>";
+   		console.log("data array from php"+data[noofcomp]);
+   		var newtr="<tr><td>"+data[noofcomp][0]+"</td><td>"+data[noofcomp][1]+"</td><td>"+data[noofcomp][2]+"</td><td>"+data[noofcomp][10]+"</td><td>"+data[noofcomp][12]+"</td></tr>";
 		$('#added').show();
 		$('#added').append(newtr);
 		$('#data').val(data);
@@ -122,10 +123,15 @@ $('#Drawing_ID').change(function(){
   		});
 
 $('#previewok').click(function(){
-alert("checked");
+if(this.checked)
+{
 $('#pview').val("0");	
 $('#submit').attr("disabled",false);
-	
+}else
+{
+$('#pview').val("1");	
+$('#submit').attr("disabled",true);
+}
 });
 
 
