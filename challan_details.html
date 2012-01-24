@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Open Challan Details</title>
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+        <script src="jQuery.download.js"></script>
+
+ <style type="text/css">
+* { font-family: Verdana; font-size=12; }
+label {float: left; color: green}
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+.drawingqty{border-spacing=2px;
+color: #ffffff;
+} 
+
+</style>
+ <script type="text/javascript">
+ 	$(document).ready(function(){
+  	$("#customer").load('get_customer.php');
+
+$('#challan').click(function(){
+console.log("clicked");
+	var custid=$('#Customer_ID').val();
+	var cid=$('#Challan_ID').val();
+	url='get_cust_challans.php?custid='+custid+'&cid='+cid;
+$('#footer').load(url);
+  		});
+
+
+$('#customer').click(function(){
+	var custid=$('#Customer_ID').val();
+	url='get_all_cust_challans.php?custid='+custid;
+$('#challan').load(url);
+  		});
+
+
+
+});
+ 	
+ 	
+ </script>
+    </head>
+    <body>
+<div id="adraw">
+  <form class="cmxform" id="deliverychallen" method="post" action="outward_dc.php">
+ <fieldset>
+<legend>Select Challan Details</legend>
+<table>
+<tr>
+	<td><label for="cname">Customer's Name</label></td>
+	<td><div id="customer"></div></td>
+</tr>
+</table>
+<table>
+	<tr><td><div id="challan"></div></td></tr>
+</table>
+ </fieldset>
+ </form>
+</div>
+<div id="footer"></div>
+</body>
+</html>

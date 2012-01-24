@@ -206,6 +206,11 @@ while($j<$noofcomp)
 $pdf->ln(8);
 $pdf->Cell(20,8,$j+1,0,0,'C');
 $pdf->Cell(50,8,"Challan: $Ex_Challan_NO[$j] Dated: $Ex_Challan_Date[$j]",0,0,'L');
+if($custid=='beml'){
+$pdf->Cell(50,8,"DA No: $DA_NO[$j] Dated: $DA_Date[$j]",0,0,'L');
+$pdf->Cell(50,8,"GP No: $GP_NO[$j] Dated: $GP_Date[$j]",0,0,'L');
+}
+
 $j++;
 }
 
