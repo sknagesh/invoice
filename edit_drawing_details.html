@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Edit Drawing Details</title>
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+
+ <style type="text/css">
+* { font-family: Verdana; font-size: 96%; }
+label { width: 15em; float: left; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+</style>
+  <script>
+  $(document).ready(function(){
+  	$("#customer").load('get_customer.php');
+    $("#editrawing").validate();
+
+	$("#submit").click(function(event) {
+
+	 if($("#editdrawing").valid())
+  	{
+  		event.preventDefault();
+		$.ajax({
+      					data: $('#editdrawing').serializeArray(),
+      					type: "POST",
+      					url: "update_drawing.php",
+      					success: function(html) {
+
+				document.getElementById("footer").innerHTML=html;
+				$('#editdrawing')[0].reset();
+				$('#edrawing').empty();
+      							}
+    							});
+  	
+  	}
+		});
+
+$('#customer').click(function(){
+	var custid=$('#Customer_ID').val();
+	url='get_drawing_edit.php?custid='+custid;
+$('#drawing').load(url);
+  		});
+
+$('#drawing').change(function(){
+	var drawingid=$('#Drawing_ID').val();
+	url='edit_drawing.php?drawingid='+drawingid;
+$('#edrawing').load(url);
+  		});
+  });
+  </script>
+
+
+
+
+    </head>
+    <body>
+<div id="adraw">
+  <form class="cmxform" id="editdrawing">
+ <fieldset>
+<legend>Edit Drawing Details</legend>
+<p><label for="cname">Customer's Name</label>
+	<div id="customer"></div>
+</p>
+	<div id="drawing"></div>
+	 <div id="edrawing"></div>
+
+     <input class="submit" id="submit" type="submit" value="Submit"/>
+ </fieldset>
+ </form>
+</div>
+</body>
+	 <div id="footer"></div>
+
+</html>

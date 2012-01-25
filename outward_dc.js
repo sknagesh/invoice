@@ -118,7 +118,9 @@ $('#add').click(function(){
 
 $('#Drawing_ID').change(function(){
 	var drawingid=$('#Drawing').val();
-	var url='get_open_challans.php?drawingid='+drawingid;
+	var custid=$('#Customer_ID').val();
+	console.log(custid);
+	var url='get_open_challans.php?drawingid='+drawingid+'&custid='+custid;
   		$('#challan').load(url)
   		});
 

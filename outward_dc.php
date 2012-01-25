@@ -10,6 +10,8 @@ if(isSet($_POST['data'])){$data=$_POST['data'];}else{$data="";}//from outward_dc
 if(isSet($_POST['item'])){$item=$_POST['item'];}else{$item="";}//from outward_dc_misc.html
 $dcno=$_POST['dcno'];
 $dcdate=$_POST['dcdate'];
+$cremark=$_POST['cremark'];
+$dbcremarks=addslashes($cremark);
 $db_dcdate=change_date_format_for_db($dcdate);
 if(isSet($_POST['yref'])){$yref=$_POST['yref'];}else{$yref="";}
 if(isSet($_POST['ydate'])){$ydate=$_POST['ydate'];}else{$ydate="";}
@@ -53,6 +55,8 @@ if($data!="")
 		$k++;
 		$drawingname[$j]=$datasplit[$k];
 		$k++;
+		$miid[$j]=$datasplit[$k];
+		$k++;
 		$drawingid[$j]=$datasplit[$k];
 		$k++;
 		$dispatchqty[$j]=$datasplit[$k];
@@ -60,6 +64,7 @@ if($data!="")
 		$challanid[$j]=$datasplit[$k];
 		$k++;
 		$remarks[$j]=$datasplit[$k];
+		$dbremarks[$j]=addslashes($remarks[$j]);
 		$k++;
 		$j++;
 	}
@@ -76,6 +81,7 @@ if($data!="")
 		$dispatchqty[$j]=$datasplit[$k];
 		$k++;
 		$remarks[$j]=$datasplit[$k];
+		$dbremarks[$j]=addslashes($remarks[$j]);
 		$k++;
 		$Ex_Challan_NO[$j]="";
 		
@@ -92,6 +98,8 @@ if($data!="")
 		$Qty[$j]="";
 		
 		$Drawing_NO[$j]="";
+		
+		$miid[$j]="";		
 		
 		$drawingid[$j]="";
 		
@@ -110,7 +118,7 @@ class PDF extends FPDF
 function Header()
 {
     // Logo
-    $this->Image('logo.jpg',0,0,30);
+    $this->Image('logo.png',0,0,30);
     // Arial bold 15
     $this->SetFont('Arial','B',15);
     // Move to the right
@@ -119,7 +127,7 @@ function Header()
     $this->Cell(60,0,'Divya Engineering Works (P) Ltd',0,0,'C');
 	// Line break
     $this->Ln(10);
-	$this->SetFont('Arial','B',10);
+	$this->SetFont('Arial','B',11);
 	$this->Cell(220,0,'Plot No 31, Hotagalli Ind Area, Mysore-570018',0,0,'C');
 	$this->Ln(6);
 	$this->Cell(220,0,'Ph: 0821 2402941, Fax 0821 2402754, email: divyaeng@divyaengineering.com',0,0,'C');
@@ -139,6 +147,7 @@ function Footer()
     // Page number
     $this->Cell(200,6,'Commissionerate: Mysore. Division II,S1 & S2,Vinaya Marg, Siddhartha Nagar, Mysore -11 ',0,1,'L');
 	$this->Cell(100,6,'Range: Mysore West, Vinaya Marg, Siddartha Nagar, Mysore - 11',0,0,'L');
+    $this->SetFont('Arial','B',11);
 	$this->Cell(80,6,'TIN 29570120027',0,'0','R');	
 }
 }
@@ -165,9 +174,11 @@ $pdf = new PDF();
 //$pdf->AliasNbPages();
 $pdf->setAutoPageBreak(10);
 $pdf->AddPage();
-$pdf->SetFont('Arial');
-
-$pdf->Cell(150,8,$custname,0,0,'L');$pdf->Cell(100,8,"DC NO: $dcno",0,1,'L');
+$pdf->SetFont('Arial','B',13);
+$pdf->Cell(150,8,$custname,0,0,'L');
+$pdf->SetFont('Arial','B',14);
+$pdf->Cell(100,8,"DC NO: $dcno",0,1,'L');
+$pdf->SetFont('Arial','',13);
 $pdf->Cell(150,8,$addl1,0,0,'L');$pdf->Cell(100,8,"Date: $dcdate",0,1,'L');
 $pdf->Cell(150,8,$addl2,0,0,'L');$pdf->Cell(100,8,"Your Ref: $yref",0,1,'L');
 $pdf->Cell(150,8,$phone,0,0,'L');$pdf->Cell(100,8,"Date: $ydate",0,1,'L');
@@ -177,10 +188,12 @@ $pdf->Cell(150,8,"Mode Of Dispatch: $dmode",0,0,'L');$pdf->Cell(100,8,"Status: $
 $pdf->line(0,94,220,94);//line after mode of dispatch
 $pdf->line(150,40,150,87);//vertical line b/w address and dc no
 $pdf->line(150,62,220,62);//horizontal line b/w dc no and cust ref
+$pdf->SetFont('Arial','B',11);
 $pdf->Cell(20,8,"SL NO",0,0,'L');$pdf->Cell(100,8,"Description",0,0,'L');
 $pdf->Cell(20,8,"Qty",0,0,'L');$pdf->Cell(50,8,"Remarks",0,0,'L');
 
 //loop to display componet details
+$pdf->SetFont('Arial','',11); //body font
 $j=0;
 if($data==''){$noofcomp+=1;}
 while($j<$noofcomp)
@@ -205,7 +218,7 @@ while($j<$noofcomp)
 {
 $pdf->ln(8);
 $pdf->Cell(20,8,$j+1,0,0,'C');
-$pdf->Cell(50,8,"Challan: $Ex_Challan_NO[$j] Dated: $Ex_Challan_Date[$j]",0,0,'L');
+$pdf->Cell(50,8,"Excise Challan No: $Ex_Challan_NO[$j] Dated: $Ex_Challan_Date[$j]",0,0,'L');
 if($custid=='beml'){
 $pdf->Cell(50,8,"DA No: $DA_NO[$j] Dated: $DA_Date[$j]",0,0,'L');
 $pdf->Cell(50,8,"GP No: $GP_NO[$j] Dated: $GP_Date[$j]",0,0,'L');
@@ -227,9 +240,13 @@ $pdf->Cell(50,20,"drawing id=$drawingid[$j]",1,1,'C');
 
 $pdf->Cell(50,20,"incomming id=$incommingid[$j]",1,1,'C');
 */
+$pdf->setX(20);$pdf->setY(240);
+$pdf->SetFont('Arial','',14);
+$pdf->Cell(200,8,"$cremark",0,0,'L');
 
 $pdf->line(0,250,220,250);//horizontal line b/w dc no and cust ref
 $pdf->setX(0);$pdf->setY(250);
+$pdf->SetFont('Arial','',11);
 $pdf->Cell(90,8,"Received the above materials in good condition",0,0,'L');
 $pdf->Cell(100,8,"For Divya Engineering Works (P) Ltd",0,1,'R');
 
@@ -260,8 +277,8 @@ if($pview==0)
 			if(($updated=mysql_affected_rows())==0)
 			{print("error updating");
 			break;}
-			$odcquery="INSERT INTO Outward_DC (Customer_ID,Challan_ID,Drawing_ID,Outward_Qty,DC_NO,DC_Date,Remarks,YRef,YDate,CStatus,DMode) ";
-			$odcquery.="VALUES('$custid','$challanid[$j]','$drawingid[$j]','$dispatchqty[$j]','$dcno','$db_dcdate','$remarks[$j]','$yref','$ydate','$status','$dmode');";
+			$odcquery="INSERT INTO Outward_DC (Customer_ID,MI_ID,Drawing_ID,Outward_Qty,DC_NO,DC_Date,Remarks,YRef,YDate,CStatus,DMode) ";
+			$odcquery.="VALUES('$custid','$miid[$j]','$drawingid[$j]','$dispatchqty[$j]','$dcno','$db_dcdate','$dbremarks[$j]','$yref','$ydate','$status','$dmode');";
 			$odcres=mysql_query($odcquery,$cxn) or die(mysql_error());
 			if(($odcupdated=mysql_affected_rows())==0)
 			{print("error updating outward dc");
@@ -274,8 +291,8 @@ if($pview==0)
 		$j=0;
 		while($j<$noofcomp)
 			{
-				$odcquery="INSERT INTO Outward_DC (Customer_ID,Challan_ID,Drawing_ID,Outward_Qty,DC_NO,DC_Date,Remarks,YRef,YDate,CStatus,DMode) ";
-				$odcquery.="VALUES('$custid','$challanid[$j]','$drawingid[$j]','$dispatchqty[$j]','$dcno','$db_dcdate','$remarks[$j]','$yref','$ydate','$status','$dmode');";
+				$odcquery="INSERT INTO Outward_DC (Customer_ID,MI_ID,Drawing_ID,Outward_Qty,DC_NO,DC_Date,Remarks,YRef,YDate,CStatus,DMode) ";
+				$odcquery.="VALUES('$custid','$miid[$j]','$drawingid[$j]','$dispatchqty[$j]','$dcno','$db_dcdate','$dbremarks[$j]','$yref','$ydate','$status','$dmode');";
 				$odcres=mysql_query($odcquery,$cxn) or die(mysql_error());
 				if(($odcupdated=mysql_affected_rows())==0)
 				{print("error updating outward dc");

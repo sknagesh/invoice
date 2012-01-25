@@ -7,8 +7,8 @@ mysql_select_db('Invoice',$cxn) or die("error opening db: ".mysql_error());
 $custid=$_POST['Customer_ID'];
 $excno=$_POST['excno'];
 $excdate=change_date_format_for_db($_POST['excdate']);
-$gpcno=$_POST['gpno'];
-$gpcdate=change_date_format_for_db($_POST['gpdate']);
+if(isSet($_POST['gpno'])){$gpcno=$_POST['gpno'];}else{$gpcno="";}
+if(isSet($_POST['gpdate'])){$gpcdate=change_date_format_for_db($_POST['gpdate']);}else{$gpcdate="";}
 if(isSet($_POST['dano'])){$dano=$_POST['dano'];}else {$dano="";}
 if(isSet($_POST['dadate'])){$dadate=change_date_format_for_db($_POST['dadate']);}else{$dadate="";}
 $noofcomp=$_POST['noofcomp'];

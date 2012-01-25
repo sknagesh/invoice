@@ -51,6 +51,8 @@ color: #ffffff;
     <td><input id="dcno" name="dcno" type="text" size="15" class="required number"></td>
     <td><label for="dcdate">Date</label></td>
     <td><input id="dcdate" name="dcdate" type="text" size="15" class="required indianDate"></td>
+    <td><label for="cremark">Common Remark</label></td>
+    <td><input id="cremark" name="cremark" type="text" size="35"> </td>
    </table>
 </fieldset>
 <fieldset>
@@ -69,7 +71,12 @@ color: #ffffff;
 <tr><td><label for="dmode">Mode Of Dispatch</label></td>
     <td><input id="dmode" name="dmode" type="text" size="25" ></td>
     <td><label for="status">Status</label></td>
-    <td><input id="status" name="status" type="text" size="25" ></td>
+<td><select name="status" id=status class="required">");
+<option value="">Select Status</option>
+<option value="Returnable">Returnable</option>
+<option value="Non Returnable">Non Returnable</option>
+</select></td>
+
 </tr>
 </table>
 </fieldset>

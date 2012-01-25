@@ -66,7 +66,6 @@ $('#add').click(function(){
 
 
 	$("#preview").click(function(event) {
-
 	$('#pview').val("1");
 	$('#previewok').attr("disabled",false);
 		 if($("#deliverychallen").valid())
