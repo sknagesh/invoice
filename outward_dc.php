@@ -175,14 +175,14 @@ $pdf = new PDF();
 $pdf->setAutoPageBreak(10);
 $pdf->AddPage();
 $pdf->SetFont('Arial','B',13);
-$pdf->Cell(150,8,$custname,0,0,'L');
+$pdf->Cell(140,8,$custname,0,0,'L');
 $pdf->SetFont('Arial','B',14);
 $pdf->Cell(100,8,"DC NO: $dcno",0,1,'L');
 $pdf->SetFont('Arial','',13);
-$pdf->Cell(150,8,$addl1,0,0,'L');$pdf->Cell(100,8,"Date: $dcdate",0,1,'L');
-$pdf->Cell(150,8,$addl2,0,0,'L');$pdf->Cell(100,8,"Your Ref: $yref",0,1,'L');
-$pdf->Cell(150,8,$phone,0,0,'L');$pdf->Cell(100,8,"Date: $ydate",0,1,'L');
-$pdf->Cell(150,8,"TIN NO: $tinno",0,1,'L');
+$pdf->Cell(140,8,$addl1,0,0,'L');$pdf->Cell(100,8,"Date: $dcdate",0,1,'L');
+$pdf->Cell(140,8,$addl2,0,0,'L');$pdf->Cell(100,8,"Your Ref: $yref",0,1,'L');
+$pdf->Cell(140,8,$phone,0,0,'L');$pdf->Cell(100,8,"Date: $ydate",0,1,'L');
+$pdf->Cell(140,8,"TIN NO: $tinno",0,1,'L');
 $pdf->line(0,87,220,87);//line before mode of dispatch
 $pdf->Cell(150,8,"Mode Of Dispatch: $dmode",0,0,'L');$pdf->Cell(100,8,"Status: $status",0,1,'L');
 $pdf->line(0,94,220,94);//line after mode of dispatch
@@ -210,22 +210,47 @@ $j++;
 //loop to display challan details
 if($data!='')
 {
-$j=0;
-$l=$k;
-$pdf->setX(10);$pdf->setY(175); //set x and y position
-$pdf->Cell(200,8,"Challan Details",0,0,'L');
-while($j<$noofcomp)
-{
-$pdf->ln(8);
-$pdf->Cell(20,8,$j+1,0,0,'C');
-$pdf->Cell(50,8,"Excise Challan No: $Ex_Challan_NO[$j] Dated: $Ex_Challan_Date[$j]",0,0,'L');
-if($custid=='beml'){
-$pdf->Cell(50,8,"DA No: $DA_NO[$j] Dated: $DA_Date[$j]",0,0,'L');
-$pdf->Cell(50,8,"GP No: $GP_NO[$j] Dated: $GP_Date[$j]",0,0,'L');
-}
+	if($custid=='24')
+	{
 
-$j++;
-}
+	$j=0;
+	$l=$k;
+	$pdf->setX(2);$pdf->setY(175); //set x and y position
+$pdf->Cell(20,8,"SL NO",0,0,'L');
+$pdf->Cell(32,8,"Ex Challan No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
+$pdf->Cell(32,8,"Gate Pass No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
+$pdf->Cell(36,8,"Delivery Advice No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
+	while($j<$noofcomp)
+		{
+		$pdf->ln(8);
+		$pdf->Cell(20,8,$j+1,0,0,'C');
+		$pdf->Cell(32,8,"$Ex_Challan_NO[$j]",0,0,'L');
+		$pdf->Cell(28,8,"$Ex_Challan_Date[$j]",0,0,'L');
+		$pdf->Cell(32,8,"$GP_NO[$j]",0,0,'L');
+		$pdf->Cell(28,8,"$GP_Date[$j]",0,0,'L');
+		$pdf->Cell(36,8,"$DA_NO[$j]",0,0,'L');
+		$pdf->Cell(28,8,"$DA_Date[$j]",0,0,'L');
+		$j++;
+
+		}
+
+	
+	}
+else {
+	$j=0;
+	$l=$k;
+	$pdf->setX(10);$pdf->setY(175); //set x and y position
+	$pdf->Cell(200,8,"Challan Details",0,0,'L');
+	while($j<$noofcomp)
+	{
+		$pdf->ln(8);
+		$pdf->Cell(20,8,$j+1,0,0,'C');
+		$pdf->Cell(50,8,"Excise Challan No: $Ex_Challan_NO[$j] Dated: $Ex_Challan_Date[$j]",0,0,'L');
+		$j++;
+	}
+
+	}
+
 
 }
 /*
@@ -240,6 +265,13 @@ $pdf->Cell(50,20,"drawing id=$drawingid[$j]",1,1,'C');
 
 $pdf->Cell(50,20,"incomming id=$incommingid[$j]",1,1,'C');
 */
+	if($custid=='24')
+	{
+$pdf->setX(20);$pdf->setY(230);
+$pdf->SetFont('Arial','',12);
+$pdf->Cell(200,8,"Vendor Code: 1247",0,0,'L');
+	}
+
 $pdf->setX(20);$pdf->setY(240);
 $pdf->SetFont('Arial','',14);
 $pdf->Cell(200,8,"$cremark",0,0,'L');
