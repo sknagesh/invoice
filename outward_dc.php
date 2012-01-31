@@ -236,7 +236,14 @@ $pdf->Cell(36,8,"Delivery Advice No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
 
 	
 	}
-else {
+
+
+
+else if($custid=='23'){
+//do nothing as we dont want to repeate dc no here also
+	}
+	
+	else {
 	$j=0;
 	$l=$k;
 	$pdf->setX(10);$pdf->setY(175); //set x and y position
