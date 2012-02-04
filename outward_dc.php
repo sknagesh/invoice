@@ -135,20 +135,21 @@ function Header()
 	$this->line(0,30,220,30);
 	$this->Ln(0);
 	$this->line(0,40,220,40);
+	$this->SetFont('Arial','B',16);
 	$this->Cell(105,0,'Delivery Challan',0,'0','R');
 	$this->Ln(10);
 }
 function Footer()
 {
     // Position at 1.5 cm from bottom
-    $this->SetY(-15);
+    $this->SetY(-19);
     // Arial italic 8
     $this->SetFont('Arial','B',8);
     // Page number
     $this->Cell(200,6,'Commissionerate: Mysore. Division II,S1 & S2,Vinaya Marg, Siddhartha Nagar, Mysore -11 ',0,1,'L');
-	$this->Cell(100,6,'Range: Mysore West, Vinaya Marg, Siddartha Nagar, Mysore - 11',0,0,'L');
+	$this->Cell(100,6,'Range: Mysore West, Vinaya Marg, Siddartha Nagar, Mysore - 11',0,1,'L');
     $this->SetFont('Arial','B',11);
-	$this->Cell(80,6,'TIN 29570120027',0,'0','R');	
+	$this->Cell(100,6,'TIN 29570120027',0,'0','L');	
 }
 }
 
@@ -182,7 +183,7 @@ $pdf->SetFont('Arial','',13);
 $pdf->Cell(140,8,$addl1,0,0,'L');$pdf->Cell(100,8,"Date: $dcdate",0,1,'L');
 $pdf->Cell(140,8,$addl2,0,0,'L');$pdf->Cell(100,8,"Your Ref: $yref",0,1,'L');
 $pdf->Cell(140,8,$phone,0,0,'L');$pdf->Cell(100,8,"Date: $ydate",0,1,'L');
-$pdf->Cell(140,8,"TIN NO: $tinno",0,1,'L');
+$pdf->ln(8);
 $pdf->line(0,87,220,87);//line before mode of dispatch
 $pdf->Cell(150,8,"Mode Of Dispatch: $dmode",0,0,'L');$pdf->Cell(100,8,"Status: $status",0,1,'L');
 $pdf->line(0,94,220,94);//line after mode of dispatch
@@ -274,13 +275,14 @@ $pdf->Cell(50,20,"incomming id=$incommingid[$j]",1,1,'C');
 */
 	if($custid=='24')
 	{
-$pdf->setX(20);$pdf->setY(230);
+$pdf->setX(20);$pdf->setY(228);
 $pdf->SetFont('Arial','',12);
 $pdf->Cell(200,8,"Vendor Code: 1247",0,0,'L');
 	}
 
-$pdf->setX(20);$pdf->setY(240);
+$pdf->setX(20);$pdf->setY(235);
 $pdf->SetFont('Arial','',14);
+$pdf->Cell(140,8,"TIN NO: $tinno",0,1,'L');
 $pdf->Cell(200,8,"$cremark",0,0,'L');
 
 $pdf->line(0,250,220,250);//horizontal line b/w dc no and cust ref
