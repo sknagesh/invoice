@@ -128,7 +128,7 @@ function Header()
 	// Line break
     $this->Ln(10);
 	$this->SetFont('Arial','B',11);
-	$this->Cell(220,0,'Plot No 31, Hotagalli Ind Area, Mysore-570018',0,0,'C');
+	$this->Cell(220,0,'Plot No 31, Hootagalli Industrial Area, Mysore-570018',0,0,'C');
 	$this->Ln(6);
 	$this->Cell(220,0,'Ph: 0821 2402941, Fax 0821 2402754, email: divyaeng@divyaengineering.com',0,0,'C');
 	$this->Ln(10);
