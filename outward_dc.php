@@ -53,7 +53,7 @@ if($data!="")
 		$k++;
 		$Qty[$j]=$datasplit[$k];
 		$k++;
-		$drawingname[$j]=$datasplit[$k];
+		$drawingname[$j]=urldecode($datasplit[$k]);
 		$k++;
 		$miid[$j]=$datasplit[$k];
 		$k++;
@@ -76,7 +76,7 @@ if($data!="")
 	$k=0;
 	while($j<=$noofcomp)
 	{
-		$drawingname[$j]=$datasplit[$k];
+		$drawingname[$j]=urldecode($datasplit[$k]);
 		$k++;
 		$dispatchqty[$j]=$datasplit[$k];
 		$k++;
@@ -202,8 +202,8 @@ while($j<$noofcomp)
 $pdf->ln(8);
 $pdf->Cell(20,8,$j+1,0,0,'C');
 $pdf->Cell(100,8,"$drawingname[$j]  $Drawing_NO[$j]",0,0,'L');
-$pdf->Cell(20,8,$dispatchqty[$j],0,0,'L');
-$pdf->Cell(50,8,$remarks[$j],0,0,'L');
+$pdf->Cell(20,8,"$dispatchqty[$j]",0,0,'L');
+$pdf->Cell(50,8,"$remarks[$j]",0,0,'L');
 $j++;
 }
 
@@ -217,10 +217,10 @@ if($data!='')
 	$j=0;
 	$l=$k;
 	$pdf->setX(2);$pdf->setY(175); //set x and y position
-$pdf->Cell(20,8,"SL NO",0,0,'L');
-$pdf->Cell(32,8,"Ex Challan No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
-$pdf->Cell(32,8,"Gate Pass No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
-$pdf->Cell(36,8,"Delivery Advice No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
+	$pdf->Cell(20,8,"SL NO",0,0,'L');
+	$pdf->Cell(32,8,"Ex Challan No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
+	$pdf->Cell(32,8,"Gate Pass No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
+	$pdf->Cell(36,8,"Delivery Advice No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
 	while($j<$noofcomp)
 		{
 		$pdf->ln(8);
@@ -240,9 +240,9 @@ $pdf->Cell(36,8,"Delivery Advice No",0,0,'L');$pdf->Cell(28,8,"Date",0,0,'L');
 
 
 
-else if($custid=='23'){
-//do nothing as we dont want to repeate dc no here also
-	}
+	else if($custid=='23'){
+		//do nothing as we dont want to repeate dc no here also
+		}
 	
 	else {
 	$j=0;
