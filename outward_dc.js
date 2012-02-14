@@ -81,11 +81,9 @@ $('#add').click(function(){
 		var url='get_comp_challan_details.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty+'&remarks='+remarks;
 		$.get(url, function(result) {
    		data[noofcomp]=result.split("<|>");
-   		console.log("before escape"+data[noofcomp][8]);
    		data[noofcomp][8]=escape(data[noofcomp][8]);
-   		console.log("after escape"+data[noofcomp][8]);
    		console.log("data array from php"+data[noofcomp]);
-   		var newtr="<tr><td>"+data[noofcomp][0]+"-"+data[noofcomp][8]+"</td><td>"+data[noofcomp][1]+"</td><td>"+data[noofcomp][2]+"</td><td>"+data[noofcomp][10]+"</td><td>"+data[noofcomp][12]+"</td></tr>";
+   		var newtr="<tr><td>"+data[noofcomp][0]+"-"+data[noofcomp][8]+"</td><td>"+data[noofcomp][1]+"</td><td>"+data[noofcomp][2]+"</td><td>"+data[noofcomp][11]+"</td><td>"+data[noofcomp][13]+"</td></tr>";
 		$('#added').show();
 		$('#added').append(newtr);
 		$('#data').val(data);

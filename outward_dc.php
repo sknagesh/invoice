@@ -118,38 +118,45 @@ class PDF extends FPDF
 function Header()
 {
     // Logo
-    $this->Image('logo.png',0,0,30);
+    $this->SetY(10);
+    $this->Image('logo.png',8,10,30);
     // Arial bold 15
-    $this->SetFont('Arial','B',15);
+    $this->SetFont('Arial','',22);
     // Move to the right
+    $this->Ln(10);
     $this->Cell(80);
     // Title
     $this->Cell(60,0,'Divya Engineering Works (P) Ltd',0,0,'C');
 	// Line break
     $this->Ln(10);
-	$this->SetFont('Arial','B',11);
+	$this->SetFont('Arial','',11);
 	$this->Cell(220,0,'Plot No 31, Hootagalli Industrial Area, Mysore-570018',0,0,'C');
 	$this->Ln(6);
 	$this->Cell(220,0,'Ph: 0821 2402941, Fax 0821 2402754, email: divyaeng@divyaengineering.com',0,0,'C');
+	$this->Ln(6);
+	$this->SetFont('Courier','B',11);
+	$this->Cell(220,0,'Certified For ISO:9001',0,0,'C');
 	$this->Ln(10);
-	$this->line(0,30,220,30);
+	$this->line(0,45,220,45);
 	$this->Ln(0);
-	$this->line(0,40,220,40);
-	$this->SetFont('Arial','B',16);
+	$this->line(0,55,220,55);
+	$this->SetFont('Arial','',16);
 	$this->Cell(105,0,'Delivery Challan',0,'0','R');
-	$this->Ln(10);
+	$this->Ln(4);
 }
 function Footer()
 {
     // Position at 1.5 cm from bottom
-    $this->SetY(-19);
+    $this->SetY(-35);
     // Arial italic 8
     $this->SetFont('Arial','B',8);
     // Page number
     $this->Cell(200,6,'Commissionerate: Mysore. Division II,S1 & S2,Vinaya Marg, Siddhartha Nagar, Mysore -11 ',0,1,'L');
-	$this->Cell(100,6,'Range: Mysore West, Vinaya Marg, Siddartha Nagar, Mysore - 11',0,1,'L');
+	$this->Cell(100,6,'Range: Mysore West, Vinaya Marg, Siddartha Nagar, Mysore - 11   C.E.Reg No AAACD6353QXM001   Ser.Tax.Reg. AAACD6353QST002',0,1,'L');
     $this->SetFont('Arial','B',11);
-	$this->Cell(100,6,'TIN 29570120027',0,'0','L');	
+	$this->Cell(50,6,'TIN: 29570120027',0,'0','L');
+	$this->Cell(70,6,'CST: 21261027 Dt. 11-9-1992',0,'0','L');	
+	$this->Cell(50,6,'PAN: AAACD6353Q',0,'0','L');
 }
 }
 
@@ -176,23 +183,26 @@ $pdf = new PDF();
 $pdf->setAutoPageBreak(10);
 $pdf->AddPage();
 $pdf->SetFont('Arial','B',13);
-$pdf->Cell(140,8,$custname,0,0,'L');
+$pdf->Cell(125,8,$custname,0,0,'L');
 $pdf->SetFont('Arial','B',14);
 $pdf->Cell(100,8,"DC NO: $dcno",0,1,'L');
 $pdf->SetFont('Arial','',13);
-$pdf->Cell(140,8,$addl1,0,0,'L');$pdf->Cell(100,8,"Date: $dcdate",0,1,'L');
-$pdf->Cell(140,8,$addl2,0,0,'L');$pdf->Cell(100,8,"Your Ref: $yref",0,1,'L');
-$pdf->Cell(140,8,$phone,0,0,'L');$pdf->Cell(100,8,"Date: $ydate",0,1,'L');
+$pdf->Cell(125,8,$addl1,0,0,'L');$pdf->Cell(100,8,"Date: $dcdate",0,1,'L');
+$pdf->Cell(125,8,$addl2,0,0,'L');$pdf->Cell(100,8,"Your Ref: $yref",0,1,'L');
+$pdf->Cell(125,8,$phone,0,0,'L');$pdf->Cell(100,8,"Date: $ydate",0,1,'L');
 $pdf->ln(8);
-$pdf->line(0,87,220,87);//line before mode of dispatch
-$pdf->Cell(150,8,"Mode Of Dispatch: $dmode",0,0,'L');$pdf->Cell(100,8,"Status: $status",0,1,'L');
-$pdf->line(0,94,220,94);//line after mode of dispatch
-$pdf->line(150,40,150,87);//vertical line b/w address and dc no
-$pdf->line(150,62,220,62);//horizontal line b/w dc no and cust ref
+$pdf->line(0,97,220,97);//line before mode of dispatch
+$pdf->Cell(135,8,"Mode Of Dispatch: $dmode",0,0,'L');$pdf->Cell(100,8,"Status: $status",0,1,'L');
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(150,8,"Please receive the following materials and acknowledge the receipt",0,1,'L');
+$pdf->line(0,110,220,110);//line after mode of dispatch
+$pdf->line(135,55,135,97);//vertical line b/w address and dc no
+$pdf->line(135,72,220,72);//horizontal line b/w dc no and cust ref
 $pdf->SetFont('Arial','B',11);
-$pdf->Cell(20,8,"SL NO",0,0,'L');$pdf->Cell(100,8,"Description",0,0,'L');
+$pdf->Cell(20,8,"SL NO",0,0,'L');$pdf->Cell(80,8,"Description",0,0,'L');
 $pdf->Cell(20,8,"Qty",0,0,'L');$pdf->Cell(50,8,"Remarks",0,0,'L');
-
+$pdf->line(0,120,220,120);//line after slno, desc and remarks
+$pdf->ln(6);
 //loop to display componet details
 $pdf->SetFont('Arial','',11); //body font
 $j=0;
@@ -201,7 +211,7 @@ while($j<$noofcomp)
 {
 $pdf->ln(8);
 $pdf->Cell(20,8,$j+1,0,0,'C');
-$pdf->Cell(100,8,"$drawingname[$j]  $Drawing_NO[$j]",0,0,'L');
+$pdf->Cell(80,8,"$drawingname[$j]  $Drawing_NO[$j]",0,0,'L');
 $pdf->Cell(20,8,"$dispatchqty[$j]",0,0,'L');
 $pdf->Cell(50,8,"$remarks[$j]",0,0,'L');
 $j++;
@@ -226,11 +236,14 @@ if($data!='')
 		$pdf->ln(8);
 		$pdf->Cell(20,8,$j+1,0,0,'C');
 		$pdf->Cell(32,8,"$Ex_Challan_NO[$j]",0,0,'L');
-		$pdf->Cell(28,8,"$Ex_Challan_Date[$j]",0,0,'L');
+		$dedate=change_date_format_for_dispaly($Ex_Challan_Date[$j]);
+		$pdf->Cell(28,8,$dedate,0,0,'L');
 		$pdf->Cell(32,8,"$GP_NO[$j]",0,0,'L');
-		$pdf->Cell(28,8,"$GP_Date[$j]",0,0,'L');
+		$dgdate=change_date_format_for_dispaly($GP_Date[$j]);
+		$pdf->Cell(28,8,$dgdate,0,0,'L');
 		$pdf->Cell(36,8,"$DA_NO[$j]",0,0,'L');
-		$pdf->Cell(28,8,"$DA_Date[$j]",0,0,'L');
+		$dadate=change_date_format_for_dispaly($DA_Date[$j]);
+		$pdf->Cell(28,8,$dadate,0,0,'L');
 		$j++;
 
 		}
@@ -253,7 +266,8 @@ if($data!='')
 	{
 		$pdf->ln(8);
 		$pdf->Cell(20,8,$j+1,0,0,'C');
-		$pdf->Cell(50,8,"Excise Challan No: $Ex_Challan_NO[$j] Dated: $Ex_Challan_Date[$j]",0,0,'L');
+		$ddate=change_date_format_for_dispaly($Ex_Challan_Date[$j]);
+		$pdf->Cell(50,8,"Excise Challan No: $Ex_Challan_NO[$j] Dated: $ddate",0,0,'L');
 		$j++;
 	}
 
@@ -275,23 +289,23 @@ $pdf->Cell(50,20,"incomming id=$incommingid[$j]",1,1,'C');
 */
 	if($custid=='24')
 	{
-$pdf->setX(20);$pdf->setY(228);
+$pdf->setX(20);$pdf->setY(218);
 $pdf->SetFont('Arial','',12);
 $pdf->Cell(200,8,"Vendor Code: 1247",0,0,'L');
 	}
 
-$pdf->setX(20);$pdf->setY(235);
+$pdf->setX(20);$pdf->setY(225);
 $pdf->SetFont('Arial','',14);
 $pdf->Cell(140,8,"TIN NO: $tinno",0,1,'L');
 $pdf->Cell(200,8,"$cremark",0,0,'L');
 
-$pdf->line(0,250,220,250);//horizontal line b/w dc no and cust ref
-$pdf->setX(0);$pdf->setY(250);
+$pdf->line(0,240,220,240);//horizontal line b/w dc no and cust ref
+$pdf->setX(0);$pdf->setY(240);
 $pdf->SetFont('Arial','',11);
 $pdf->Cell(90,8,"Received the above materials in good condition",0,0,'L');
 $pdf->Cell(100,8,"For Divya Engineering Works (P) Ltd",0,1,'R');
 
-$pdf->setX(0);$pdf->setY(265);
+$pdf->setX(0);$pdf->setY(255);
 $pdf->Cell(90,8,"Receiver's Signature",0,0,'L');
 $pdf->Cell(100,8,"Authorised Signatory",0,1,'R');
 
