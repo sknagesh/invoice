@@ -15,29 +15,6 @@ $('#cdate').validate({
     });
 $('#submit').attr("disabled",true);
 $('#preview').attr("disabled",true);
-	/*$("#submit").click(function(event) {
-
-		 if($("#deliverychallen").valid())
-		  	{
-		  		event.preventDefault();
-				$.ajax({
-      					data: $('#deliverychallen').serializeArray(),
-      					type: "POST",
-      					url: "outward_dc.php",
-      					success: function(html) {
-						document.getElementById("footer").innerHTML=html;
-						$('#deliverychallen')[0].reset();
-						$('#added').hide();
-      							}
-    								});
- 	
-		  	}
-						$('#deliverychallen')[0].reset();
-						$('#added').hide();
-		  	
-
-	});*/
-	
 	
 var noofcomp=0;
 var data=new Array();
@@ -57,8 +34,15 @@ $('#add').click(function(){
 	var qty=$('#qty').val();
 	var remarks=$('#remarks').val();
 	var Max_Qty=0;
+	var seltext=$('#Challan_ID option:selected').text();
+	var custid=$('#Customer_ID').val();
 	console.log("entered addclick "+Max_Qty,qty);
-	var url='get_challan_qty.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty;
+	console.log("selected text "+seltext);
+	var grnb=seltext.indexOf("GRN:")+4;
+	var grne=seltext.indexOf(" ",grnb);
+	var grn=seltext.substring(grnb,grne);
+	console.log("grn "+grn);
+	var url='get_challan_qty.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty+'&grn='+grn+'&custid='+custid;
 	$.ajax({
       					type: "GET",
       					url: url,
