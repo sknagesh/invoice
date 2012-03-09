@@ -13,7 +13,7 @@ $query.="INNER JOIN Material_Incomming as mi ON mi.MI_ID=odc.MI_ID ";
 $query.="INNER JOIN Incomming_Challans as ic ON ic.Incomming_ID=mi.Challan_ID ";
 $query.="WHERE odc.Customer_ID='$custid' AND mi.Challan_ID='$cid' ORDER BY odc.DC_Date;";
 
-print($query);
+//print($query);
 
 $res=mysql_query($query,$cxn) or die(mysql_error());
 print('<table border="1px"><tr><th>Challan No</th><th>Challan Date</th><th>Drawing No</th><th>Component</th><th>DC No</th><th>DC Date</th>');

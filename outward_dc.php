@@ -57,6 +57,8 @@ if($data!="")
 		$k++;
 		$miid[$j]=$datasplit[$k];
 		$k++;
+		$grn[$j]=$datasplit[$k];
+		$k++;
 		$drawingid[$j]=$datasplit[$k];
 		$k++;
 		$dispatchqty[$j]=$datasplit[$k];
@@ -318,7 +320,7 @@ if($pview==0)
 	$j=0;
 	while($j<$noofcomp)
 		{
-			$q="SELECT Outward_Qty FROM Material_Incomming WHERE Challan_Id='$challanid[$j]' AND Drawing_ID='$drawingid[$j]';";
+			$q="SELECT Outward_Qty FROM Material_Incomming WHERE Challan_Id='$challanid[$j]' AND Drawing_ID='$drawingid[$j]' AND Material_Desc='$grn[$j]';";
 
 			$r=mysql_query($q,$cxn) or die(mysql_error());
 			while($row=mysql_fetch_array($r))
@@ -327,7 +329,7 @@ if($pview==0)
 			}
 			$nq=$outwardqty-$dispatchqty[$j];
 			if($nq<0){$nq=0;}
-			$qry="UPDATE Material_Incomming SET Outward_Qty=$nq WHERE Challan_ID='$challanid[$j]' AND Drawing_ID='$drawingid[$j]';";
+			$qry="UPDATE Material_Incomming SET Outward_Qty=$nq WHERE Challan_ID='$challanid[$j]' AND Drawing_ID='$drawingid[$j]' AND Material_Desc='$grn[$j]';";
 			$rr=mysql_query($qry,$cxn) or die(mysql_error());
 			if(($updated=mysql_affected_rows())==0)
 			{print("error updating");

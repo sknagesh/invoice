@@ -62,12 +62,12 @@ $('#add').click(function(){
 			return false;
 		}	else{
 		$('#preview').attr("disabled",false);
-		var url='get_comp_challan_details.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty+'&remarks='+remarks;
+		var url='get_comp_challan_details.php?drawingid='+drawingid+'&incommingid='+incommingid+'&qty='+qty+'&remarks='+remarks+'&grn='+grn+'&custid='+custid;
 		$.get(url, function(result) {
    		data[noofcomp]=result.split("<|>");
    		data[noofcomp][8]=escape(data[noofcomp][8]);
    		console.log("data array from php"+data[noofcomp]);
-   		var newtr="<tr><td>"+data[noofcomp][0]+"-"+data[noofcomp][8]+"</td><td>"+data[noofcomp][1]+"</td><td>"+data[noofcomp][2]+"</td><td>"+data[noofcomp][11]+"</td><td>"+data[noofcomp][13]+"</td></tr>";
+   		var newtr="<tr><td>"+data[noofcomp][0]+"-"+data[noofcomp][8]+"</td><td>"+data[noofcomp][1]+"</td><td>"+data[noofcomp][2]+"</td><td>"+data[noofcomp][12]+"</td><td>"+data[noofcomp][14]+"</td></tr>";
 		$('#added').show();
 		$('#added').append(newtr);
 		$('#data').val(data);
