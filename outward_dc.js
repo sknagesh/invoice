@@ -34,6 +34,7 @@ $('#add').click(function(){
 	var qty=$('#qty').val();
 	var remarks=$('#remarks').val();
 	var Max_Qty=0;
+	var diff=0;
 	var seltext=$('#Challan_ID option:selected').text();
 	var custid=$('#Customer_ID').val();
 	console.log("entered addclick "+Max_Qty,qty);
@@ -49,15 +50,16 @@ $('#add').click(function(){
       					async:false,
       					success: function(html) {
 						Max_Qty=html;
-						console.log("back from ajax call "+Max_Qty,qty);
+						diff=Max_Qty-qty;		
+						console.log("back from ajax call and diff is "+Max_Qty,qty,diff);
 										}
     							});
 		if(drawingid==''||incommingid==''||qty=='')
 		{
 			alert("Please select Corect Drawing, Challan No and Quantity");
 			return false;
-		}else if(Max_Qty<qty){
-			console.log("inside if "+Max_Qty,qty);
+		}else if(diff<0){
+			console.log("inside if diff is "+diff);
 			alert("Please enter correct quantity");
 			return false;
 		}	else{
